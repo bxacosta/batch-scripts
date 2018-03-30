@@ -26,6 +26,7 @@ if [%1] equ [] (
 ) else (
     echo "%1" no se reconoce como un comando valido.
 )
+endlocal
 goto:eof
 
 :: SUBROUTINES
