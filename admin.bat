@@ -18,6 +18,8 @@ if [%1] equ [] (
     ) else (
         echo Sin permisos de Administrador
     )
+) else if ["%1"] equ ["cmd"] (
+    call :sub_create_vbscript_file
 ) else if ["%1"] equ ["script"] (
     if [%2] equ [] (
         echo.
@@ -40,13 +42,14 @@ echo.
 echo Uso: admin [comando] [parametro] 
 echo.
 echo Comandos disponibles:
-echo .			- Abre una consola CMD como administrador.
+echo .			- Abre una consola CMD como administrador ubicado en el directorio actual.
 echo ?			- Consulta si la consola se esta ejecutando con permisos de administrador.
+echo cmd			- Abre una consola CMD con permisos de administrador.
 echo script			- Ejecuta el script batch que se le indique con permisos de administrador.
 echo.
 echo Parametros disponibles:
 echo script [path] [param]	- [path] ruta del script batch que desea ejecutar como administrador.
-echo				  [param] parametros del scrip.
+echo				  [param] parametros del script.
 echo.
 echo Notas:
 echo				- Este script utiliza la funcionalidad de Windows UAC (Control de Cuentas de Usuario).
