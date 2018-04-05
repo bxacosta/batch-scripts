@@ -34,14 +34,16 @@ goto:eof
 cls
 echo Opciones de Perfiles de Red WiFi
 echo.
-echo Uso: wp [comando] [nombre_perfil]
+echo Uso: wp [comando] [parametro]
 echo.
 echo Comandos disponibles:
-echo key		- Muestra la clave de un perfil wifi configurado en el sistema.
-echo delete		- Elimina un perfil wifi configurado en el sistema.
-echo show		- Muestra todos los perfiles wifi configurados en el sistema.
+echo key			- Muestra la clave de un perfil wifi configurado en el sistema.
+echo delete			- Elimina un perfil wifi configurado en el sistema.
+echo show			- Muestra todos los perfiles wifi configurados en el sistema.
 echo.
-echo Notas: El parametro [nombre_perfil] es para los comandos [key], [delete] y es opcional.
+echo Parametros disponibles:
+echo key [nombre_perfil]	- Muestra la clave del perfil wifi especificado.
+echo delete [nombre_perfil]	- Elimina el perfil wifi especificado.
 goto:eof
 
 :sub_show_profile_key
