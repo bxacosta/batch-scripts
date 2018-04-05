@@ -1,6 +1,6 @@
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-::  				A batch script that allows you to manage firewall rules 				 ::
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::						Script that allows you to manage firewall rules 					::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -27,7 +27,16 @@ set rules[3].localport=8080-8085
 if [%1] equ [] (
 	call :sub_main_menu
 ) else if ["%1"] equ ["create"] (
-    call :sub_create_rules
+	if ["%2"] equ ["*"] (
+		call :sub_create_rules
+	) else (
+		call admin.bat ? > nul
+		if !errorlevel! equ 0 (
+			call :sub_create_rules
+		) else (
+			call admin.bat script %~f0 "create *"	
+		)
+	)
 ) else if ["%1"] equ ["show"] (
     call :sub_show_configuration
 ) else if ["%1"] equ ["delete"] (
@@ -39,7 +48,16 @@ if [%1] equ [] (
 		echo delete [nombre_corto]	- Elimina la regla.
 		echo delete all		- Elimina todas las reglas.
 	) else (
-		call :sub_delete_rule %2
+		if ["%3"] equ ["*"] (
+			call :sub_delete_rule %2
+		) else (
+			call admin.bat ? > nul
+			if !errorlevel! equ 0 (
+				call :sub_delete_rule %2
+			) else (
+				call admin.bat script %~f0 "delete %2 *"	
+			)
+		)
 	)
 ) else (
 	if [%2] equ [] (
@@ -58,7 +76,16 @@ if [%1] equ [] (
 			set aux=yes
 		)
 		if ["!aux!"] equ ["yes"] (
-			call :sub_change_enable %1 %2
+			if ["%3"] equ ["*"] (
+				call :sub_change_enable %1 %2
+			) else (
+				call admin.bat ? > nul
+				if !errorlevel! equ 0 (
+					call :sub_change_enable %1 %2
+				) else (
+					call admin.bat script %~f0 "%1 %2 *"	
+				)
+			)
 		) else (
 			echo.
 			echo La sintaxis del comando no es correcta.
@@ -69,7 +96,6 @@ if [%1] equ [] (
 		)
 	)
 )
-pause
 endlocal
 goto:eof
 
@@ -100,7 +126,7 @@ goto:eof
 
 :sub_create_rules
 set /a rules_created=0
-SET /a new_rules=0
+set /a new_rules=0
 
 call :sub_get_array_size rules size
 set /a size-=1
@@ -176,7 +202,7 @@ for /l %%a in (1,1,%size%) do (
 				if ["%2"] equ ["on"] (
 					echo La regla "%1" se ha habilitado correctamente.
 				) else (
-					echo La regla "%1" se ha Desabilito correctamente.
+					echo La regla "%1" se ha deshabilito correctamente.
 				)
 			) else (
 				echo Ocurrio un error al modificar la regla "%1", asegurese que tiene los permisos necesarios.
