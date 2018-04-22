@@ -9,13 +9,16 @@ if [%1] equ [] (
 ) else if ["%1"] equ ["."] (
 	for /f "tokens=* delims=" %%a in ('chdir') do set current_path=%%a
 	set script=cd !current_path! ^&^& %~d1
+    echo.
     call :sub_create_vbscript_file "!script!"
 ) else if ["%1"] equ ["?"] (
     :: Check if we are running as Admin
     fsutil dirty query %SystemDrive% > nul
     if !errorlevel! equ 0 (
+        echo.
         echo Con permisos de Administrador
     ) else (
+        echo.
         echo Sin permisos de Administrador
     )
 ) else if ["%1"] equ ["cmd"] (
@@ -73,7 +76,7 @@ echo Set UAC = CreateObject^("Shell.Application"^) > %file_path%
 echo UAC.ShellExecute %application%, %parameters%, "", "runas", 1 >> %file_path%
 
 :: Execute the VBScript
-cscript %file_path%
+cscript %file_path% > nul
 
 if exist %file_path% (
     del %file_path%
