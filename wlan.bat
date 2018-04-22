@@ -1,5 +1,5 @@
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-::  				A batch script that allows you to manage the WiFi profiles 				 ::
+::  				A batch script that allows you to manage the WiFi settings 				 ::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 @echo off
 setlocal EnableDelayedExpansion
@@ -32,9 +32,9 @@ goto:eof
 :: SUBROUTINES
 :sub_main_menu
 cls
-echo Opciones de Perfiles de Red WiFi
+echo Opciones de Red WiFi
 echo.
-echo Uso: wp [comando] [parametro]
+echo Uso: wlan [comando] [parametro]
 echo.
 echo Comandos disponibles:
 echo key			- Muestra la clave de un perfil wifi configurado en el sistema.
