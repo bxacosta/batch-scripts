@@ -106,19 +106,23 @@ if !errorlevel! equ 0 (
 	if [!data.key!] neq [] echo Clave:		!data.key!
 	if [!data.num_clients!] neq [] (
 		if ["!data.num_clients!"] neq ["0 "] (
-			set /a index=1
+			set /a index=0
 			echo.
 			echo Clientes conectados:	!data.num_clients!
 			echo -------------------------
 			for /f "tokens=1-7 skip=1 delims=: " %%a in ('netsh wlan show hostednetwork ^| findstr /r "..:..:..:..:..:.."') do (
+				set /a index+=1
 				set clients[!index!].mac=%%a-%%b-%%c-%%d-%%e-%%f
 				set clients[!index!].state=%%g
-				set /a index+=1
 			)
-			set clients
+			for /l %%n in (1,1,!index!) do (
+				for /f "tokens=1-2" %%a in ('arp -a -N 192.168.137.1 ^| find "!clients[%%n].mac!"') do (
+					set clients[%%n].ip=%%a
+				)
+				echo !clients[%%n].ip!		!clients[%%n].mac!	!clients[%%n].state!
+			)
 		)
 	) 
-	REM set data
 )
 goto:eof
 :: End sub_show_hostednetwork
