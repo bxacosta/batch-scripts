@@ -9,7 +9,16 @@ if [%1] equ [] (
 ) else if ["%1"] equ ["config"] (
     call :sub_new_hostednetwork
 ) else if ["%1"] equ ["start"] (
-    call :sub_start_hostednetwork
+	if ["%2"] equ ["*"] (
+		call :sub_start_hostednetwork
+	) else (
+		call admin.bat ? > nul
+		if !errorlevel! equ 0 (
+			call :sub_create_rules
+		) else (
+			call admin.bat script %~f0 "start *"	
+		)
+	)
 ) else if ["%1"] equ ["stop"] (
     call :sub_stop_hostednetwork
 ) else if ["%1"] equ ["show"] (
