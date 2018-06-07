@@ -14,7 +14,7 @@ if [%1] equ [] (
 	) else (
 		call admin.bat ? > nul
 		if !errorlevel! equ 0 (
-			call :sub_create_rules
+			call :sub_start_hostednetwork
 		) else (
 			call admin.bat script %~f0 "start *"	
 		)
